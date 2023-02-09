@@ -17,7 +17,7 @@ def search(name='Москва, кремль'):
     geocoder_api_server = "http://geocode-maps.yandex.ru/1.x/"
 
     geocoder_params = {
-        "apikey": "Apikey",
+        "apikey": "69112cab-042a-47a0-b2c3-b53694ca4271",
         "geocode": name,
         "format": "json"}
 
@@ -46,7 +46,8 @@ def get_image(coords, delta="0.005", map='map'): # coords: "coords_x coords_y"
     map_api_server = "http://static-maps.yandex.ru/1.x/"
     response = requests.get(map_api_server, params=map_params)
 
-    return BytesIO(response.content)
+    with open('pic.png', 'wb') as picture:
+        picture.write(response.content)
 
 
 class MainWin(QMainWindow):
@@ -65,14 +66,10 @@ class MainWin(QMainWindow):
             self.post_index = True
         address = self.adress_edit.toPlainText()
         map_type = self.comboBox.currentText()
-        print(2)
         image = (get_image(search(address), map=map_type))
-        print(1)
-        with open('pic.png', 'wb') as picture:
-            picture.write(image)
         self.pixmap = QPixmap('pic.png')
         self.map_picture_line.setPixmap(self.pixmap)
-        #Image.open(get_image(search(address), map=map_type)).show()
+        # Image.open(get_image(search(address), map=map_type)).show()
 
     def clean_map(self):
         pass

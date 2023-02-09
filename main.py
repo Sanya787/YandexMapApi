@@ -109,13 +109,13 @@ class MainWin(QMainWindow):
             self.coords = x + str(float(y) - 0.05)
             get_image(self.coords, z=self.z, map=self.map_type)
             self.map_picture_line.setPixmap(QPixmap('pic.png'))
-        if event.key() == QtCore.Qt.Key_Up:
+        if event.key() == QtCore.Qt.Key_Right:
             # Увеличить координату х
             x, y = self.coords.split(',')[1]
             self.coords = str(float(x) + 0.05) + y
             get_image(self.coords, z=self.z, map=self.map_type)
             self.map_picture_line.setPixmap(QPixmap('pic.png'))
-        if event.key() == QtCore.Qt.Key_Down:
+        if event.key() == QtCore.Qt.Key_Left:
             # Уменьшить координату х
             x, y = self.coords.split(',')[1]
             self.coords = str(float(x) - 0.05) + y

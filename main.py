@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import (
 toponym_to_find = 'Москва'
 
 
-def search(name='Москва, кремль'):
+def search(name='Москва, кремль'): # Принимает адрес
     geocoder_api_server = "http://geocode-maps.yandex.ru/1.x/"
 
     geocoder_params = {
@@ -31,16 +31,17 @@ def search(name='Москва, кремль'):
     toponym = json_response["response"]["GeoObjectCollection"][
         "featureMember"][0]["GeoObject"]
 
-    return toponym["Point"]["pos"]
+    return ','.join(toponym["Point"]["pos"].split(' '))
+    # Возвращает координаты через запятую
 
 
-def get_image(coords, delta="0.005", map='map'): # coords: "coords_x coords_y"
-    toponym_longitude, toponym_lattitude = coords.split(" ")
+def get_image(coords, map='map', z='12'):
+    # Принимает координаты формат карты и уровень зума
 
     map_params = {
-        "ll": ",".join([toponym_longitude, toponym_lattitude]),
-        "spn": ",".join([delta, delta]),
+        "ll": coords,
         "l": map,
+        "z": z,
     }
 
     map_api_server = "http://static-maps.yandex.ru/1.x/"
@@ -55,9 +56,10 @@ class MainWin(QMainWindow):
         super().__init__()
         uic.loadUi("main.ui", self)
         self.post_index = False
-        self.delta = '0.005'
-        self.address = 'москва кремль'
+        self.z = '12'
+        self.address = 'Москва, Кремль'
         self.map_type = 'map'
+        self.coords = '0, 0'
         self.initUI()
 
     def initUI(self):
@@ -65,30 +67,36 @@ class MainWin(QMainWindow):
         self.clean_button.clicked.connect(lambda: self.clean_map())
 
     def on_click_search(self):
+        # Осуществляет поиск
         if self.radio_post_index.isChecked():
             self.post_index = True
+
         self.address = self.adress_edit.toPlainText()
         if self.address == '':
             self.address = 'Кремль, Москва'
+
         self.map_type = self.comboBox.currentText()
-        image = (get_image(search(self.address), delta=self.delta, map=self.map_type))
-        self.pixmap = QPixmap('pic.png')
-        self.map_picture_line.setPixmap(self.pixmap)
-        # Image.open(get_image(search(address), map=map_type)).show()
+
+        # Поиск по адресу
+        self.coords = search(self.address)
+
+        # Обновление pic.png
+        get_image(self.coords, z=self.z, map=self.map_type)
+        self.map_picture_line.setPixmap(QPixmap('pic.png'))
 
     def keyPressEvent(self, event):
         if event.key() == QtCore.Qt.Key_W:
-            self.delta = str(float(self.delta) + 0.002)
-            print(self.delta)
-            get_image(search(self.address), delta=self.delta, map=self.map_type)
-            self.pixmap = QPixmap('pic.png')
-            self.map_picture_line.setPixmap(self.pixmap)
+            # Увеличить зум
+
+            self.z = str(int(self.z) + 1)
+            get_image(self.coords, z=self.z, map=self.map_type)
+            self.map_picture_line.setPixmap(QPixmap('pic.png'))
         if event.key() == QtCore.Qt.Key_S:
-            self.delta = str(float(self.delta) - 0.0005)
-            print(self.delta)
-            get_image(search(self.address), delta=self.delta, map=self.map_type)
-            self.pixmap = QPixmap('pic.png')
-            self.map_picture_line.setPixmap(self.pixmap)
+            # Уменьшить зум
+
+            self.z = str(int(self.z) - 1)
+            get_image(self.coords, z=self.z, map=self.map_type)
+            self.map_picture_line.setPixmap(QPixmap('pic.png'))
         event.accept()
 
     def clean_map(self):

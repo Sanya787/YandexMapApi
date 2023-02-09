@@ -17,7 +17,7 @@ def search(name='Москва, кремль'): # Принимает адрес
     geocoder_api_server = "http://geocode-maps.yandex.ru/1.x/"
 
     geocoder_params = {
-        "apikey": "69112cab-042a-47a0-b2c3-b53694ca4271",
+        "apikey": "Apikey",
         "geocode": name,
         "format": "json"}
 

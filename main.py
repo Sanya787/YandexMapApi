@@ -65,6 +65,8 @@ class MainWin(QMainWindow):
         if self.radio_post_index.isChecked():
             self.post_index = True
         address = self.adress_edit.toPlainText()
+        if address == '':
+            address = 'Кремль, Москва'
         map_type = self.comboBox.currentText()
         image = (get_image(search(address), map=map_type))
         self.pixmap = QPixmap('pic.png')

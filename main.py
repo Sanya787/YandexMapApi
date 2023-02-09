@@ -55,6 +55,9 @@ class MainWin(QMainWindow):
         super().__init__()
         uic.loadUi("main.ui", self)
         self.post_index = False
+        self.delta = '0.005'
+        self.address = 'москва кремль'
+        self.map_type = 'map'
         self.initUI()
 
     def initUI(self):
@@ -64,14 +67,29 @@ class MainWin(QMainWindow):
     def on_click_search(self):
         if self.radio_post_index.isChecked():
             self.post_index = True
-        address = self.adress_edit.toPlainText()
-        if address == '':
-            address = 'Кремль, Москва'
-        map_type = self.comboBox.currentText()
-        image = (get_image(search(address), map=map_type))
+        self.address = self.adress_edit.toPlainText()
+        if self.address == '':
+            self.address = 'Кремль, Москва'
+        self.map_type = self.comboBox.currentText()
+        image = (get_image(search(self.address), delta=self.delta, map=self.map_type))
         self.pixmap = QPixmap('pic.png')
         self.map_picture_line.setPixmap(self.pixmap)
         # Image.open(get_image(search(address), map=map_type)).show()
+
+    def keyPressEvent(self, event):
+        if event.key() == QtCore.Qt.Key_W:
+            self.delta = str(float(self.delta) + 0.002)
+            print(self.delta)
+            get_image(search(self.address), delta=self.delta, map=self.map_type)
+            self.pixmap = QPixmap('pic.png')
+            self.map_picture_line.setPixmap(self.pixmap)
+        if event.key() == QtCore.Qt.Key_S:
+            self.delta = str(float(self.delta) - 0.0005)
+            print(self.delta)
+            get_image(search(self.address), delta=self.delta, map=self.map_type)
+            self.pixmap = QPixmap('pic.png')
+            self.map_picture_line.setPixmap(self.pixmap)
+        event.accept()
 
     def clean_map(self):
         pass

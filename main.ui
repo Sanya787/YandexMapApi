@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>936</width>
     <height>600</height>
    </rect>
   </property>
@@ -14,68 +14,103 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <widget class="QLineEdit" name="map_picture_line">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>511</width>
+      <height>361</height>
+     </rect>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>31</y>
+      <width>121</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="editable">
+     <bool>false</bool>
+    </property>
     <item>
-     <widget class="QLineEdit" name="map_picture_line">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
+     <property name="text">
+      <string>map</string>
+     </property>
     </item>
     <item>
-     <widget class="QComboBox" name="comboBox">
-      <property name="editable">
-       <bool>false</bool>
-      </property>
-      <item>
-       <property name="text">
-        <string>map</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>sat</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>sat.skl</string>
-       </property>
-      </item>
-     </widget>
+     <property name="text">
+      <string>sat</string>
+     </property>
     </item>
     <item>
-     <widget class="QTextEdit" name="adress_edit"/>
+     <property name="text">
+      <string>sat.skl</string>
+     </property>
     </item>
-    <item>
-     <widget class="QPushButton" name="search_button">
-      <property name="text">
-       <string>search</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QRadioButton" name="radio_post_index">
-      <property name="text">
-       <string>post index</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="clean_button">
-      <property name="text">
-       <string>clean</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   </widget>
+   <widget class="QTextEdit" name="adress_edit">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>130</y>
+      <width>251</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="search_button">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>130</y>
+      <width>75</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>search</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radio_post_index">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>230</y>
+      <width>131</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>post index</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="clean_button">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>492</y>
+      <width>141</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>clean</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>936</width>
      <height>22</height>
     </rect>
    </property>

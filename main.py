@@ -24,7 +24,7 @@ def search(name='Москва, кремль'):
     response = requests.get(geocoder_api_server, params=geocoder_params)
 
     if not response:
-        pass
+        print('error geocoder', response.reason)
 
     json_response = response.json()
 
@@ -65,7 +65,14 @@ class MainWin(QMainWindow):
             self.post_index = True
         address = self.adress_edit.toPlainText()
         map_type = self.comboBox.currentText()
-        Image.open(get_image(search(address), map=map_type)).show()
+        print(2)
+        image = (get_image(search(address), map=map_type))
+        print(1)
+        with open('pic.png', 'wb') as picture:
+            picture.write(image)
+        self.pixmap = QPixmap('pic.png')
+        self.map_picture_line.setPixmap(self.pixmap)
+        #Image.open(get_image(search(address), map=map_type)).show()
 
     def clean_map(self):
         pass

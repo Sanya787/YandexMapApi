@@ -17,7 +17,7 @@ def search(name='Москва, кремль'): # Принимает адрес
     geocoder_api_server = "http://geocode-maps.yandex.ru/1.x/"
 
     geocoder_params = {
-        "apikey": "Apikey",
+        "apikey": "69112cab-042a-47a0-b2c3-b53694ca4271",
         "geocode": name,
         "format": "json"}
 
@@ -95,6 +95,30 @@ class MainWin(QMainWindow):
             # Уменьшить зум
 
             self.z = str(int(self.z) - 1)
+            get_image(self.coords, z=self.z, map=self.map_type)
+            self.map_picture_line.setPixmap(QPixmap('pic.png'))
+        if event.key() == QtCore.Qt.Key_Up:
+            # Увеличить координату у
+            x, y = self.coords.split(',')[1]
+            self.coords = x + str(float(y) + 0.05)
+            get_image(self.coords, z=self.z, map=self.map_type)
+            self.map_picture_line.setPixmap(QPixmap('pic.png'))
+        if event.key() == QtCore.Qt.Key_Down:
+            # Уменьшить координату у
+            x, y = self.coords.split(',')[1]
+            self.coords = x + str(float(y) - 0.05)
+            get_image(self.coords, z=self.z, map=self.map_type)
+            self.map_picture_line.setPixmap(QPixmap('pic.png'))
+        if event.key() == QtCore.Qt.Key_Up:
+            # Увеличить координату х
+            x, y = self.coords.split(',')[1]
+            self.coords = str(float(x) + 0.05) + y
+            get_image(self.coords, z=self.z, map=self.map_type)
+            self.map_picture_line.setPixmap(QPixmap('pic.png'))
+        if event.key() == QtCore.Qt.Key_Down:
+            # Уменьшить координату х
+            x, y = self.coords.split(',')[1]
+            self.coords = str(float(x) - 0.05) + y
             get_image(self.coords, z=self.z, map=self.map_type)
             self.map_picture_line.setPixmap(QPixmap('pic.png'))
         event.accept()

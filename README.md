@@ -2,10 +2,10 @@
 Mini project using API
 ## Technical task
 - [x] A window that displays a map, with programmatically specified coordinates
-- [ ] Ability to change the scale of the map
-- [ ] Move the map to fit the screen
-- [ ] Map view switch (Satellite, Schematic, Hybrid)
-- [ ] Search for objects
+- [x] Ability to change the scale of the map
+- [x] Move the map to fit the screen
+- [x] Map view switch (Satellite, Schematic, Hybrid)
+- [x] Search for objects
 - [ ] Keep the label when zooming, moving, or changing the view of the map.
 - [ ] Button "Reset search result"
 - [ ] Field with the full address of the object

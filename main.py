@@ -17,7 +17,7 @@ def search(name='Москва, кремль'): # Принимает адрес
     geocoder_api_server = "http://geocode-maps.yandex.ru/1.x/"
 
     geocoder_params = {
-        "apikey": "Apikey",
+        "apikey": "api-key",
         "geocode": name,
         "format": "json"}
 
@@ -89,6 +89,7 @@ class MainWin(QMainWindow):
             # Увеличить зум
 
             self.z = str(int(self.z) + 1)
+            print(self.z)
             get_image(self.coords, z=self.z, map=self.map_type)
             self.map_picture_line.setPixmap(QPixmap('pic.png'))
         if event.key() == QtCore.Qt.Key_S:
@@ -99,26 +100,29 @@ class MainWin(QMainWindow):
             self.map_picture_line.setPixmap(QPixmap('pic.png'))
         if event.key() == QtCore.Qt.Key_Up:
             # Увеличить координату у
-            x, y = self.coords.split(',')[1]
-            self.coords = x + str(float(y) + 0.05)
+            x, y = self.coords.split(',')
+            self.coords = x + ',' + str(float(y) + 0.05)
             get_image(self.coords, z=self.z, map=self.map_type)
             self.map_picture_line.setPixmap(QPixmap('pic.png'))
         if event.key() == QtCore.Qt.Key_Down:
-            # Уменьшить координату у
-            x, y = self.coords.split(',')[1]
-            self.coords = x + str(float(y) - 0.05)
+            print(event.key() == QtCore.Qt.Key_Down)
+            # Уменьшить координ y
+            print(self.coords)
+            x, y = self.coords.split(',')
+            self.coords = x + ',' + str(float(y) - 0.05)
+            print(self.coords)
             get_image(self.coords, z=self.z, map=self.map_type)
             self.map_picture_line.setPixmap(QPixmap('pic.png'))
         if event.key() == QtCore.Qt.Key_Right:
             # Увеличить координату х
-            x, y = self.coords.split(',')[1]
-            self.coords = str(float(x) + 0.05) + y
+            x, y = self.coords.split(',')
+            self.coords = str(float(x) + 0.05) + ',' + y
             get_image(self.coords, z=self.z, map=self.map_type)
             self.map_picture_line.setPixmap(QPixmap('pic.png'))
         if event.key() == QtCore.Qt.Key_Left:
             # Уменьшить координату х
-            x, y = self.coords.split(',')[1]
-            self.coords = str(float(x) - 0.05) + y
+            x, y = self.coords.split(',')
+            self.coords = str(float(x) - 0.05) + ',' + y
             get_image(self.coords, z=self.z, map=self.map_type)
             self.map_picture_line.setPixmap(QPixmap('pic.png'))
         event.accept()

@@ -17,7 +17,7 @@ def search(name='Москва, кремль'): # Принимает адрес
     geocoder_api_server = "http://geocode-maps.yandex.ru/1.x/"
 
     geocoder_params = {
-        "apikey": "api-key",
+        "apikey": "69112cab-042a-47a0-b2c3-b53694ca4271",
         "geocode": name,
         "format": "json"}
 
@@ -31,7 +31,11 @@ def search(name='Москва, кремль'): # Принимает адрес
     toponym = json_response["response"]["GeoObjectCollection"][
         "featureMember"][0]["GeoObject"]
 
-    return ','.join(toponym["Point"]["pos"].split(' '))
+    print(toponym)
+
+    print(toponym['metaDataProperty']['GeocoderMetaData']['Address']['postal_code'])
+    return (','.join(toponym["Point"]["pos"].split(' ')),
+            toponym['metaDataProperty']['GeocoderMetaData']['text'])
     # Возвращает координаты через запятую
 
 
@@ -56,7 +60,7 @@ class MainWin(QMainWindow):
         super().__init__()
         uic.loadUi("main.ui", self)
         self.post_index = False
-        self.z = '12'
+        self.z = 12
         self.address = 'Москва, Кремль'
         self.map_type = 'map'
         self.coords = '0, 0'
@@ -78,8 +82,9 @@ class MainWin(QMainWindow):
         self.map_type = self.comboBox.currentText()
 
         # Поиск по адресу
-        self.coords = search(self.address)
+        self.coords, self.address = search(self.address)
 
+        self.adress_edit.setPlainText(self.address)
         # Обновление pic.png
         get_image(self.coords, z=self.z, map=self.map_type)
         self.map_picture_line.setPixmap(QPixmap('pic.png'))
@@ -88,47 +93,48 @@ class MainWin(QMainWindow):
         if event.key() == QtCore.Qt.Key_W:
             # Увеличить зум
 
-            self.z = str(int(self.z) + 1)
-            print(self.z)
-            get_image(self.coords, z=self.z, map=self.map_type)
+            self.z += 1
+            get_image(self.coords, z=str(self.z), map=self.map_type)
             self.map_picture_line.setPixmap(QPixmap('pic.png'))
         if event.key() == QtCore.Qt.Key_S:
             # Уменьшить зум
 
-            self.z = str(int(self.z) - 1)
-            get_image(self.coords, z=self.z, map=self.map_type)
+            self.z -= 1
+            get_image(self.coords, z=str(self.z), map=self.map_type)
             self.map_picture_line.setPixmap(QPixmap('pic.png'))
         if event.key() == QtCore.Qt.Key_Up:
             # Увеличить координату у
-            x, y = self.coords.split(',')
-            self.coords = x + ',' + str(float(y) + 0.05)
+            x, y = self.coords.split(',')[1]
+            self.coords = x + str(float(y) + 0.05)
             get_image(self.coords, z=self.z, map=self.map_type)
             self.map_picture_line.setPixmap(QPixmap('pic.png'))
         if event.key() == QtCore.Qt.Key_Down:
-            print(event.key() == QtCore.Qt.Key_Down)
-            # Уменьшить координ y
-            print(self.coords)
-            x, y = self.coords.split(',')
-            self.coords = x + ',' + str(float(y) - 0.05)
-            print(self.coords)
+            # Уменьшить координату у
+            x, y = self.coords.split(',')[1]
+            self.coords = x + str(float(y) - 0.05)
             get_image(self.coords, z=self.z, map=self.map_type)
             self.map_picture_line.setPixmap(QPixmap('pic.png'))
         if event.key() == QtCore.Qt.Key_Right:
             # Увеличить координату х
-            x, y = self.coords.split(',')
-            self.coords = str(float(x) + 0.05) + ',' + y
+            x, y = self.coords.split(',')[1]
+            self.coords = str(float(x) + 0.05) + y
             get_image(self.coords, z=self.z, map=self.map_type)
             self.map_picture_line.setPixmap(QPixmap('pic.png'))
         if event.key() == QtCore.Qt.Key_Left:
             # Уменьшить координату х
-            x, y = self.coords.split(',')
-            self.coords = str(float(x) - 0.05) + ',' + y
+            x, y = self.coords.split(',')[1]
+            self.coords = str(float(x) - 0.05) + y
             get_image(self.coords, z=self.z, map=self.map_type)
             self.map_picture_line.setPixmap(QPixmap('pic.png'))
         event.accept()
 
     def clean_map(self):
-        pass
+        self.address = 'Москва'
+        self.z = 12
+        self.map_type = 'map'
+        self.coords = '55.000000, 37.000000'
+        get_image(self.coords, z=self.z, map=self.map_type)
+        self.map_picture_line.setPixmap(QPixmap('pic.png'))
 
 
 if __name__ == '__main__':

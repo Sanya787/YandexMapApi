@@ -71,8 +71,9 @@ class MainWin(QMainWindow):
         self.z = 12
         self.address = 'Москва, Кремль'
         self.map_type = 'map'
-        self.coords = '55.000000,37.000000'
+        self.coords = '37.617734,55.752004'
         self.coords_flag = None
+        self.map_koefs = (2.33, 2)
         self.initUI()
 
     def initUI(self):
@@ -101,7 +102,7 @@ class MainWin(QMainWindow):
         else:
             self.adress_edit.setPlainText(self.address)
         # Обновление pic.png
-        get_image(self.coords, self.coords_flag, z=self.z, map=self.map_type)
+        get_image(self.coords, self.coords_flag, z=str(self.z), map=self.map_type)
         self.map_picture_line.setPixmap(QPixmap('pic.png'))
 
     def keyPressEvent(self, event):
@@ -120,40 +121,40 @@ class MainWin(QMainWindow):
         if event.key() == QtCore.Qt.Key_Up:
             # Увеличить координату у
             x, y = self.coords.split(',')
-            diff = 360 / 2 ** self.z
+            diff = 180 / 2 ** self.z * self.map_koefs[1]
             self.coords = x + ',' + str(float(y) + (diff if float(y) + diff <= 90 else 0))
-            get_image(self.coords, self.coords_flag, z=self.z, map=self.map_type)
+            get_image(self.coords, self.coords_flag, z=str(self.z), map=self.map_type)
             self.map_picture_line.setPixmap(QPixmap('pic.png'))
         if event.key() == QtCore.Qt.Key_Down:
             # Уменьшить координату у
             x, y = self.coords.split(',')
-            diff = 360 / 2 ** self.z
+            diff = 180 / 2 ** self.z * self.map_koefs[1]
             self.coords = x + ',' + str(float(y) - (diff if float(y) - diff >= -90 else 0))
-            get_image(self.coords, self.coords_flag, z=self.z, map=self.map_type)
+            get_image(self.coords, self.coords_flag, z=str(self.z), map=self.map_type)
             self.map_picture_line.setPixmap(QPixmap('pic.png'))
         if event.key() == QtCore.Qt.Key_Right:
             # Увеличить координату х
             x, y = self.coords.split(',')
-            diff = 720 / 2 ** self.z
+            diff = 360 / 2 ** self.z * self.map_koefs[0]
             self.coords = str(float(x) + (diff if float(x) + diff <= 180 else 0)) + ',' + y
-            get_image(self.coords, self.coords_flag, z=self.z, map=self.map_type)
+            get_image(self.coords, self.coords_flag, z=str(self.z), map=self.map_type)
             self.map_picture_line.setPixmap(QPixmap('pic.png'))
         if event.key() == QtCore.Qt.Key_Left:
             # Уменьшить координату х
             x, y = self.coords.split(',')
-            diff = 720 / 2 ** self.z
+            diff = 360 / 2 ** self.z * self.map_koefs[0]
             self.coords = str(float(x) - (diff if float(x) - diff >= -180 else 0)) + ',' + y
-            get_image(self.coords, self.coords_flag, z=self.z, map=self.map_type)
+            get_image(self.coords, self.coords_flag, z=str(self.z), map=self.map_type)
             self.map_picture_line.setPixmap(QPixmap('pic.png'))
         event.accept()
 
     def clean_map(self):
-        self.address = 'Москва'
+        self.address = 'Москва, Кремль'
         self.z = 12
         self.map_type = 'map'
-        self.coords = '55.000000,37.000000'
+        self.coords = '37.617734,55.752004'
         self.coords_flag = None
-        get_image(self.coords, self.coords_flag, z=self.z, map=self.map_type)
+        get_image(self.coords, self.coords_flag, z=str(self.z), map=self.map_type)
         self.map_picture_line.setPixmap(QPixmap('pic.png'))
 
 
